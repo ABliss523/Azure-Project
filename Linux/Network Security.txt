@@ -1,0 +1,164 @@
+﻿Network Security
+The concept of defense in depth can be broken down into three different security control types. Identify the security control type of each set of defense tactics.
+1. Walls, bollards, fences, guard dogs, cameras, and lighting are what type of security control?
+Physical Control Type
+2. Security awareness programs, BYOD policies, and ethical hiring practices are what type of security control?
+Administrative Control Type
+3. Encryption, biometric fingerprint readers, firewalls, endpoint security, and intrusion detection systems are what type of security control?
+Technical Control Type
+Intrusion Detection and Attack indicators
+1. What's the difference between an IDS and an IPS?
+IDS is intrusion detection and IPS is intrusion prevention
+2. What's the difference between an Indicator of Attack and an Indicator of Compromise?
+IoA would detect what the attacker is trying to do but IoC describes how the attacker did what they did.
+The Cyber Kill Chain
+Name each of the seven stages for the Cyber Kill chain and provide a brief example of each.
+1. Recon: Gathers information on potential attacker
+2. Weaponization: Inputting malicious software onto a target’s device that allows an entrance for the attacker
+3. Delivery: When an attacker sends malicious code through email or messaging
+4. Exploitation: The compromise of information on a targets machine
+5. Installation: Installing malicious code onto a target’s device
+6. C2: Used to control another device
+7. Exfiltration: Gaining access to the user’s machine
+Snort Rule Analysis
+Snort Rule #1
+1. Break down the Sort Rule header and explain what is happening.
+It is alerting the user of inbound TCP traffic from the ports 5800 and 5820.
+2. What stage of the Cyber Kill Chain does this alert violate?
+The Recon stage.
+3. What kind of attack is indicated?
+A VNC Scan.
+Snort Rule #2
+1. Break down the Sort Rule header and explain what is happening.
+It is alerting the user of inbound TCP traffic on port 80
+2. What layer of the Defense in Depth model does this alert violate?
+The policies, awareness, and procedures layer.
+3. What kind of attack is indicated?
+A “ET POLICY PE EXE or DLL Windows file download HTTP”
+Snort Rule #3
+* Your turn! Write a Snort rule that alerts when traffic is detected inbound on port 4444 to the local network on any port. Be sure to include the msg in the Rule Option.
+Alert tcp Ext_net 444 -> Home_Net any (msg: Possible Trojan or CrackDown)
+Part 2: "Drop Zone" Lab
+Uninstall ufw 
+* Run the command that removes any running instance of ufw.
+Command: sudo apt remove ufw
+Enable and start firewalld 
+By default, these service should be running. If not, then run the following commands:
+* Run the commands that enable and start firewalld upon boots and reboots.
+* Command: sudo systemctl enable firewalld and sudo systemctl start firewalld
+Note: This will ensure that firewalld remains active after each reboot.
+Confirm that the service is running.
+* Run the command that checks whether or not the firewalld service is up and running.
+Command: sudo firewalld-cmd --state
+List all firewall rules currently configured.
+Next, lists all currently configured firewall rules. This will give you a good idea of what's currently configured and save you time in the long run by not doing double work.
+* Run the command that lists all currently configured firewall rules: 
+Command: sudo firewall-cmd –list-all
+* Take note of what Zones and settings are configured. You many need to remove unneeded services and settings.
+List all supported service types that can be enabled.
+* Run the command that lists all currently supported services to see if the service you need is available
+Command: sudo firewalld-cmd – get-services
+* We can see that the Home and Drop Zones are created by default.
+Zone Views
+* Run the command that lists all currently configured zones.
+Command: sudo firewall-cmd –list-all-zones
+Create Zones for Web, Sales and Mail.
+* Run the commands that creates Web, Sales and Mail zones.
+* Command: sudo firewall-cmd –permanent –new-zone=web
+* Command: sudo firewall-cmd –permanent –new-zone=sales
+* Command: sudo firewall-cmd –permanent –new-zone=mail
+Set the zones to their designated interfaces:
+* Run the commands that sets your eth interfaces to your zones.
+* Command: sudo firewall-cmd –zone=public –change-interface=eth0
+* Command: sudo firewall-cmd –zone=web –change-interface=eth1
+* Command: sudo firewall-cmd –zone=sales –change-interface=eth2
+* Command: sudo firewall-cmd –zone=mail –change-interface=eth3
+Add services to the active zones:
+* Run the commands that add services to the public zone, the web zone, the sales zone, and the mail zone.
+* Command: sudo firewall-cmd –zone=public –add-service=http
+   * –add-service-https
+   * –add-service=pop3
+   * –add-service-smtp
+* Command: sudo firewall-cmd –zone=web –add-service=http
+* Command: sudo firewall-cmd –zone=sales –add-service=https
+* Command: sudo firewall-cmd –zone=mail –add-service=smtp
+   * –add-service=pop3
+Add your adversaries to the Drop Zone.
+* Run the command that will add all current and any future blacklisted IPs to the Drop Zone.
+* Command: sudo firewall-cmd –permanent –zone=drop –add-source=10.208.56.23
+* Command: sudo firewall-cmd –permanent –zone=drop –add-source=135.95.103.76
+* Command: sudo firewall-cmd –permanent –zone=drop –add-source=76.34.169.118
+Make rules permanent then reload them:
+* Run the command that reloads the firewalld configurations and writes it to memory
+Command: sudo firewall-cmd--reload
+View active Zones
+Now, we'll want to provide truncated listings of all currently active zones. This a good time to verify your zone settings.
+* Run the command that displays all zone services.
+Command: sudo firewall-cmd –get-active-zones
+Block an IP address
+* Use a rich-rule that blocks the IP address 138.138.0.3.
+Command: sudo firewall-cmd –zone=public –add-rich-rule=’rule=”IPv4” source=138.138.0.3” reject’
+Block Ping/ICMP Requests
+Harden your network against ping scans by blocking icmp ehco replies.
+* Run the command that blocks pings and icmp requests in your public zone.
+Command: sudo firewall-cmd –zone=public –add-icmp-block=echo-reply –add-icmp-block=echo-request
+Rule Check
+Now that you've set up your brand new firewalld installation, it's time to verify that all of the settings have taken effect.
+* Run the command that lists all of the rule settings. Do one command at a time for each zone.
+* Command: sudo firewall-cmd –zone=public –list-all
+* Command: sudo firewall-cmd –zone=web –list-all
+* Command: sudo firewall-cmd –zone=sales –list-all
+* Command: sudo firewall-cmd –zone=mail –list-all
+* Are all of our rules in place? If not, then go back and make the necessary modifications before checking again.
+   * Command: sudo firewall-cmd –permanent –zone=drop –list-all
+Congratulations! You have successfully configured and deployed a fully comprehensive firewalld installation.
+________________
+
+
+Part 3: IDS, IPS, DiD and Firewalls
+Now, we will work on another lab. Before you start, complete the following review questions.
+IDS vs. IPS Systems
+1. Name and define two ways an IDS connects to a network.
+Through the perimeter of the network
+Through the host machine of the network
+2. Describe how an IPS connects to a network.
+Through a physical connection on a switch
+3. What type of IDS compares patterns of traffic to predefined signatures and is unable to detect Zero-Day attacks?
+The signature type 
+4. Which type of IDS is beneficial for detecting all suspicious traffic that deviates from the well-known baseline and is excellent at detecting when an attacker probes or sweeps a network?
+The anomaly type
+Defense in Depth
+1. For each of the following scenarios, provide the layer of Defense in Depth that applies:
+   1. A criminal hacker tailgates an employee through an exterior door into a secured facility, explaining that they forgot their badge at home.
+Physical Layer
+   2. A zero-day goes undetected by antivirus software.
+Application Layer
+   3. A criminal successfully gains access to HR’s database.
+Data Layer
+   4. A criminal hacker exploits a vulnerability within an operating system.
+The Host Layer
+   5. A hacktivist organization successfully performs a DDoS attack, taking down a government website.
+The Network Layer
+   6. Data is classified at the wrong classification level.
+Policy, procedures, and awareness
+   7. A state sponsored hacker group successfully firewalked an organization to produce a list of active services on an email server.
+The Perimeter Layer
+2. Name one method of protecting data-at-rest from being readable on hard drive.
+Through encryption
+3. Name one method to protect data-in-transit.
+Using a VPN
+4. What technology could provide law enforcement with the ability to track and recover a stolen laptop.
+A tracking system
+5. How could you prevent an attacker from booting a stolen laptop using an external hard drive?
+By using an encrypted password
+Firewall Architectures and Methodologies
+1. Which type of firewall verifies the three-way TCP handshake? TCP handshake checks are designed to ensure that session packets are from legitimate sources.
+Circuit proxy firewall
+2. Which type of firewall considers the connection as a whole? Meaning, instead of looking at only individual packets, these firewalls look at whole streams of packets at one time.
+Stateful packet filter firewall
+3. Which type of firewall intercepts all traffic prior to being forwarded to its final destination. In a sense, these firewalls act on behalf of the recipient by ensuring the traffic is safe prior to forwarding it?
+The application proxy firewall
+4. Which type of firewall examines data within a packet as it progresses through a network interface by examining source and destination IP address, port number, and packet type- all without opening the packet to inspect its contents?
+A Packet filtering firewall
+5. Which type of firewall filters based solely on source and destination MAC address?
+The MAC firewall

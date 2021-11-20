@@ -1,0 +1,38 @@
+﻿RockStar Corp Network Assessment Report
+Hollywood Office:
+Action: Pinged Hollywood Database, Web, and Application Servers for vulnerabilities by observing which server would accept connections.
+Results:
+* IP Address 167.172.144.11 within Web Servers was the only network listed as alive and upon pinging the network 4 times with “fping -c -4 167.172.144.11” a connection response was received through the output each time.
+* Remaining network IP addresses listed as unreachable.
+* Finding is found within the Network Layer. (Layer 3)
+Action: Ran a SYN Scan against the accepting connection to determine what ports were open.
+Results:
+* Upon scanning the IP address 167.172.144.11 within the Web Servers to determine the open ports within that network with “nmap -sS 167.172.144.11”, port 22 was stated as open with a ssh service.
+* Remaining 999 ports were listed as closed. 
+* Finding is found within he Transport Layer. (Layer 4)
+Action: Logged into accepting connection server through account jimi connected to the RockStar server and then investigated IP address to determine attack.
+Results:
+* Account jimi has remote access to the server after logging in through the command “ssh jimi@167.172.144.11” with the password hendrix.
+* Suspected DNS hijacking; investigated DNS caches within etc directory through command “nano hosts” and found IP address 98.137.246.8 as the listed IP address for rollingstone.com.
+* Conducted “nslookup 98.137.246.8” to determine the associated domain, results listed as name = unknown.yahoo.com.
+* While researching the IP addresses associated to the website through “nslookup rollingstone.com” four different addresses were presented that do not resemble the one above.
+   * 151.101.192.69
+   * 151..101.0.69
+   * 151.101.128.69
+   * 151.101.64.69
+* Finding is found within the Application Layer (Layer 7)
+
+
+
+
+
+
+Action: Investigated suspicious txt file within etc directory on server where it seems packet captures were being stored, then analyzed packet captures.
+Results:
+* Upon opening file with command “cat packetcaptureinfo.txt” a message and link was presented “Captured Packets are here: https://drive.google.com/file/d/1ic-CFFGrbuloYrWawPvT71elTkh3eF/view?usp=sharing”  that brings the user to a downloadable wireshark file labeled secretlogs.pcapng.
+* Applied Address Resolution Protocol filter “arp.opcode==2” to determine any suspicious activity of the source host, results show a duplicated IP address with different MAC addresses 00:0c:29:0f:71:a3 and 00:0c:29:1d:b3:b1.
+* Applied “http.request.method==POST” to determine any communication from within the server, results show Source IP 10.0.2.15 to Destination IP 104.18.126.89. Within packet was following information:
+   * Mr Hacker
+   * Hacker@rockstarcorp.com
+   * “Hi Got the Blues Corp! This is a hacker that works at Rock Star Corp. Rock Star has left port 22, SSH open if you want to hack in. For 1 million dollars I will provide you the user and password!”
+* Finding is found within the Data Link Layer(Layer 2)

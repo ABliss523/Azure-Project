@@ -1,0 +1,49 @@
+﻿Archiving and Logging Data
+________________
+
+
+Step 1: Create, Extract, Compress, and Manage tar Backup Archives
+1. Command to extract the TarDocs.tar archive to the current directory: “tar -xvvf TarDocs.tar -C ~/Projects” 
+2. Command to create the Javaless_Doc.tar archive from the TarDocs/ directory, while excluding the TarDocs/Documents/Java directory: “tar cvf Javaless_docs.tar –exclude=”/TarDocs?Documents/Java” ~/Projects “ 
+3. Command to ensure Java/ is not in the new Javaless_Docs.tar archive: “tar Javaless_Docs.tar | Java”
+Critical Analysis Question
+* Why wouldn't you use the options -x and -c at the same time with tar? Because -x is for extracting a tar and -c is for creating a tar. Doing so would rename your tar to the name specified and make it into a file. (Did this by accident and that was my results)
+________________
+
+
+Step 2: Create, Manage, and Automate Cron Jobs
+1. Cron job for backing up the /var/log/auth.log file: “0 6 * * 3 tar czf /auth_backup.tgz /var/log/auth.log” 
+________________
+
+
+Step 3: Write Basic Bash Scripts
+1. Brace expansion command to create the four subdirectories: “sudo mkdir -p ~/Backups /{freemen,diskuse,openlist,freedisk}”
+2. Paste your system.sh script edits below:
+3. #!/bin/bash
+4. # Prints the amount of free memory on the system.
+5. free -h > ~/Backups/freemem/free_mem.txt
+6. # Prints the disk usage.
+7. du -h > ~/Backups/diskuse/disk_use.txt
+8. # Lists all open files.
+9. lsof > ~/Backups/openlist/open_list.txt
+10. # Prints disk space statistics.
+11. df -h > ~/Backups/freedisk/free_disk.txt
+Command to make the system.sh script executable: “sudo chmod +x system.sh”
+Optional
+* Commands to test the script and confirm its execution: “./system.sh”
+________________
+
+
+Step 4. Manage Log File Sizes
+1. Run sudo nano /etc/logrotate.conf to edit the logrotate configuration file.
+Configure a log rotation scheme that backs up authentication messages to the /var/log/auth.log.
+   * Add your config file edits below:
+# Log rotation that backs up authentication messages.
+/var/log/auth.log {
+    weekly
+    rotate 7
+    notifempty
+    delaycompress
+    missingok
+    endscript
+}

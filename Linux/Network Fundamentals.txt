@@ -1,0 +1,88 @@
+﻿In a Network Far, Far Away!
+
+
+Mission 1
+Mail servers for starwars.com:
+ Text
+
+Description automatically generated 
+
+Why Resistance isn’t receiving mail: Because the mail exchanger is being directed to 5 different mail servers that are not either of the new mail servers. 
+Corrected DNS record: Should include “asltx.1.google.com” and “asltx.2.google.com”
+Mission 2
+SPF for theforce.net: 
+  
+
+Why emails are going to spam: Because the IP address has not been updated
+Corrected DNS record: Should include IP address “45.23.176.21”
+Mission 3
+How CNAME should look by viewing www.theforce.net:  Cname should include an alias listed as “resistance.theforce.net”
+Why subpage of resistance.theforce.net is not redirecting to theforce.net: Because there is not a created server for resistance.theforce.net, upon nslookup, website is listed as NXDOMAIN
+ Text
+
+Description automatically generated 
+
+Corrected DNS record: Cname should include “resistance.the force.net canonical name = theforce.net”
+Mission 4
+DNS records for princessleia.site:
+ Text
+
+Description automatically generated 
+
+How to fix DNS record: Should add “ns2.galaxybackup.com” to the website server because it is not listed
+Mission 5
+OSPF’s shortest path from Batuu to Jedha: Batuu-d-c-g-o-r-q-t-v-Jedha[a]
+Confirmed path does not include Planet N: 
+ Diagram
+
+Description automatically generated 
+
+Mission 6
+Dark Side’s secret wireless key:
+ A picture containing table
+
+Description automatically generated 
+
+
+
+
+
+
+
+
+
+Host IP and MAC addresses:
+ARP 1
+ Text
+
+Description automatically generated 
+
+ARP 2
+ Text
+
+Description automatically generated 
+
+
+
+
+
+
+
+
+
+
+
+ARP 3
+ Text, application
+
+Description automatically generated 
+
+
+
+Mission 7
+Results from TXT record in 4th mission:
+ A screenshot of a computer
+
+Description automatically generated with medium confidence 
+
+[a]Batuu > D > C > E > F > J > I > L > Q > T > V > Jedha
