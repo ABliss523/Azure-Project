@@ -22,7 +22,7 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancers protect the system from DDoS attacks through evenly shifting traffic amoung the servers, this ensures the application will be highly responsive in addition to restricting access to the network.
+Load balancers protect the system from DDoS attacks through evenly shifting traffic between the servers, this ensures the application will be highly responsive in addition to restricting access to the network.
 - The Jump Box only gives access to the user with the correct SSH key connecting from the IP address 20.119.48.89, that can be monitored and secured, restricting it's access to the public.
 
 Integrating an ELK server allows users to easily monitor the vulnerability of the Virtual Machines for changes within the logs and system traffic.
@@ -45,7 +45,7 @@ The machines on the internal network are not exposed to the public Internet.
 Only the Jump-Box machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
 - 20.119.48.89
 
-Machines within the network can only be accessed by the Jump-Box Provisioners Internal IP Address: 10.0.0.4.
+Machines within the network can only be accessed by the Jump-Box Provisioner's Internal IP Address: 10.0.0.4.
 - The ELK VM can be accessed by the Jump-Box-Provisioner 10.0.0.4:22 and the Workstation IP 20.119.48.89:5601
 
 A summary of the access policies in place can be found in the table below.
